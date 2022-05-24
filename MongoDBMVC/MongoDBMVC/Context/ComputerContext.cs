@@ -49,7 +49,26 @@ namespace MongoDBMVC.Context
 
             return await Computers.Find(filter).ToListAsync();
         }
+     /*   public byte[] GetImage(string id)
+        {
+            return gridFS.DownloadAsBytes(new ObjectId(id));
+        }*/
 
+/*        public async Task StoreImage(string id,Stream imageStream,string imageName)
+        {
+            Computers computer = await GetComputers(id);
+            if(computer.HasImage())
+            {
+                gridFS.Delete(new ObjectId(computer.ImageId));
+            }
+            ObjectId imageId = gridFS.OpenUploadStream(imageName, imageStream);
+            computer.ImageId = imageId.ToString();
+
+            var filter = Builders<Computers>.Filter.Eq("_id", new ObjectId(computer.Id));
+            var update = Builders<Computers>.Update.Set("ImageId", computer.ImageId);
+
+            Computers.UpdateOne(filter, update);
+        }*/
         public async Task<Computers> GetComputers(string id) => await Computers.Find(new BsonDocument("_id", new ObjectId(id))).FirstOrDefaultAsync();
 
         public async Task Create(Computers c) => await Computers.InsertOneAsync(c);

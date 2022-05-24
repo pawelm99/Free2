@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using Microsoft.AspNetCore.Http;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
@@ -29,8 +30,9 @@ namespace Infrastructure.Model
         
         public string ImageId { get; set; }
 
-        public bool HasImage()=> !string.IsNullOrEmpty(ImageId);    
+        public bool HasImage()=> !string.IsNullOrEmpty(ImageId);
+       
 
-        
+
     }
 }

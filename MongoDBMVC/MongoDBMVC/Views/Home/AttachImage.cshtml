@@ -1,0 +1,24 @@
+﻿@model Infrastructure.Model.Computers
+@{
+    ViewBag.Title = "AttachImage";
+}
+
+
+
+<!DOCTYPE html>
+ 
+<html>
+<head>
+    <meta name="viewport" content="width=device-width"/>
+    <title>Index</title>
+</head>
+<body>
+    <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="AttachImage">
+        <span>Select File:</span>
+        <input type="file" name=file multiple/>
+        <input type="submit" value="Upload"/>
+        <br/>
+        <span style="color:green">@Html.Raw(ViewBag.Message)</span>
+    </form>
+</body>
+</html>
