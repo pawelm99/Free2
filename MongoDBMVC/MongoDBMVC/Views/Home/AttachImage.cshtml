@@ -1,24 +1,36 @@
 ﻿@model Infrastructure.Model.Computers
-@{
-    ViewBag.Title = "AttachImage";
-}
-
-
-
-<!DOCTYPE html>
  
-<html>
-<head>
-    <meta name="viewport" content="width=device-width"/>
-    <title>Index</title>
-</head>
-<body>
-    <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="AttachImage">
-        <span>Select File:</span>
-        <input type="file" name=file multiple/>
-        <input type="submit" value="Upload"/>
-        <br/>
-        <span style="color:green">@Html.Raw(ViewBag.Message)</span>
-    </form>
-</body>
-</html>
+@{
+    ViewBag.Title = "Dodaj Obraz";
+}
+<h2>Dodaj obraz</h2>
+ 
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+     
+    <div>
+        @Html.ValidationSummary(true)
+        <div>
+            @Html.LabelFor(model => model.Name)
+            <div>@Model.Name</div>
+        </div>
+ 
+        <div>
+            @Html.LabelFor(model => model.ImageId, "Przeslij obraz")
+            <div>
+                <input type="file" name="file" id="uploadedFile" />
+            </div>
+        </div>
+ 
+        <div>
+            <div>
+                <input type="submit" value="Update" />
+            </div>
+        </div>
+    </div>
+}
+@if (Model.HasImage())
+{
+    <img src="@Url.Action("GetImage", new { id=@Model.ImageId})" />
+}

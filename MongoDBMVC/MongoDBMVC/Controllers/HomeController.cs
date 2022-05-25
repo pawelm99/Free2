@@ -19,8 +19,8 @@ namespace MongoDBMVC.Controllers
 
         public async Task<IActionResult> Index(ComputerFilter filter)
         {
-            var computers = await db.GetComputersAsync(filter.Year,filter.ComputerName);
-            var model = new ComputerList { Computers = computers, Filter= filter };
+            var computers = await db.GetComputersAsync(filter.Year, filter.ComputerName);
+            var model = new ComputerList { Computers = computers, Filter = filter };
 
             return View(model);
         }
@@ -41,20 +41,20 @@ namespace MongoDBMVC.Controllers
             return View(computers);
         }
 
-            [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        
+
         public async Task<IActionResult> Edit(string id)
         {
-            Computers computer =  await db.GetComputers(id);
-            if(computer == null)
+            Computers computer = await db.GetComputers(id);
+            if (computer == null)
             {
-                 throw new Exception("Not find PC");
-             
+                throw new Exception("Not find PC");
+
             }
             else return View(computer);
         }
@@ -62,9 +62,9 @@ namespace MongoDBMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(Computers computers)
         {
-            if(computers != null)
+            if (computers != null)
             {
-               await db.Update(computers);
+                await db.Update(computers);
                 return RedirectToAction("Index");
             }
             else return View(computers);
@@ -81,29 +81,36 @@ namespace MongoDBMVC.Controllers
             if (computers == null)
             {
                 throw new Exception("Computers is null");
-             
+
             }
-            else return View(computers);
+            return View(computers);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AttachImage([FromForm(Name = "file")] IFormFile file,string id)
+        public async Task<IActionResult> AttachImage([FromForm(Name = "file")] IFormFile file, string id)
         {
-            if(file != null)
+            if (file != null)
             {
+
+
+
+
                 await db.StoreImage(id, file.OpenReadStream(), file.FileName);
 
             }
+
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> GetImage(string id)
+        public async Task<ActionResult> GetImage(string id)
         {
             var image = await db.GetImage(id);
-            if (image == null) throw new Exception("image is null!");
+            if (image == null)
+            {
+                return NotFound();
+            }
             return File(image, "image/png");
+
         }
-        
-        
     }
 }

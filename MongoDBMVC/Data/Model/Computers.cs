@@ -31,6 +31,8 @@ namespace Infrastructure.Model
         public string ImageId { get; set; }
 
         public bool HasImage()=> !string.IsNullOrEmpty(ImageId);
+
+       
        
 
 
